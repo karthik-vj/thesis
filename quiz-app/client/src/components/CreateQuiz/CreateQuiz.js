@@ -3,7 +3,7 @@ import Sidebar from '../Sidebar/Sidebar';
 import './CreateQuiz.css';
 import Dialog from '../Dialog/Dialog';
 import axios from 'axios';
-import Toast from '../Toast/Toast';
+
 
 export default class CreateQuiz extends React.Component {
 
@@ -23,13 +23,6 @@ export default class CreateQuiz extends React.Component {
            imgUrl: ''
        }
    }
-
-   componentDidMount() {
-        if (!localStorage.getItem('JWT_PAYLOAD')) {
-            this.props.history.push('/');
-        }
-    }
-
    selectPrivate = e => {
        if(e.target.checked === true) {
            this.setState({
@@ -84,17 +77,7 @@ export default class CreateQuiz extends React.Component {
            imgUrl: this.state.imgUrl
        }
        axios.post('/api/quizzes/create', {quiz, createdBy: localStorage.getItem('_ID')}).then(res => {
-            if (res.data.success) {
-                this.setState({
-                    questions: [], 
-                    answers: [],
-                    categoryVal: "Math",
-                    showToast: true
-                });
-                setTimeout(() => {
-                    this.setState({showToast: false});
-                }, 3000);
-            }
+           console.log(res.data);
        }).catch(er => {
            console.error(er);
        })
@@ -103,7 +86,7 @@ export default class CreateQuiz extends React.Component {
    render() {
        return (
            <div className="create-quiz-wrapper">
-               <Toast model={this.state.showToast} message="Quiz Created" />
+              
                <div>
                    <Sidebar />
                </div>
