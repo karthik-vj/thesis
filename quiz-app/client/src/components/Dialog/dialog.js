@@ -1,23 +1,22 @@
 import React from 'react';
-
+import $ from 'jquery'
 export default class Dialog extends React.Component {
 
     constructor(props) {
         super(props);
         this.modalRef = React.createRef()
     }
-/*
+
     componentDidMount() {
         $(this.modalRef.current).hide();
     }
-*/
     hideScreen = () => {
-        //$(this.modalRef.current).fadeIn(200);
+        $(this.modalRef.current).fadeIn(200);
         document.getElementsByTagName('html')[0].style.overflow = 'hidden';
     }
 
     showScreen = () => {
-       // $(this.modalRef.current).fadeOut(200);
+       $(this.modalRef.current).fadeOut(200);
         document.getElementsByTagName('html')[0].style.overflow = 'auto';
     }
 

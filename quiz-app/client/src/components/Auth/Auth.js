@@ -5,6 +5,7 @@ import './Auth.css';
 import axios from 'axios';
 import store from '../../store/index';
 import { withRouter } from 'react-router'
+import Toast from '../Toast/Toast';
 
 
 
@@ -28,6 +29,15 @@ import { withRouter } from 'react-router'
                 });
                 this.props.history.push("/dashboard");
                 document.location.reload()
+            }else
+            {
+                this.setState({
+                    showToast: true
+                });
+                setTimeout(()=>{
+                    this.setState({showToast:false})
+                }, 3000)
+
             }
         }).catch(er =>{
             console.log(er)
@@ -54,7 +64,7 @@ import { withRouter } from 'react-router'
         let page = this.state.tab === 'signin' ? <Signin signIn={this.signIn} /> : <Signup signUp={this.signUp} />
         return (
             <div className="auth-wrapper">
-                
+                <Toast model = { this.state.showToast} message = "Incorrect Login" backgroundColor = "#FF4539"/>
                 <div className="left">
                     <img src="https://freesvg.org/img/chemist.png" alt=''/>
                 </div>
