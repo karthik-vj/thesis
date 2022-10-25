@@ -4,6 +4,9 @@ import { BrowserRouter as Router ,Route, Switch, Redirect } from "react-router-d
 import Auth from './components/Auth/Auth'
 import Dashboard from "./components/Dashboard/Dashboard";
 import CreateQuiz from "./components/CreateQuiz/CreateQuiz"
+import CommunityQuizzes from "./components/CommunityQuizzes/CommunityQuizzes";
+import MyQuizzes from "./components/MyQuizzes/MyQuizzes";
+import ViewQuiz from "./components/ViewQuiz/ViewQuiz";
 import store from './store';
 
 
@@ -28,9 +31,12 @@ class App extends React.Component{
       <div className="App">
        <Router>
         <Switch>
-          <Route exact path="/" component = {Auth}/>
+          <Route exact path="/" component ={Auth}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path="/create-quiz" component={CreateQuiz}/>
+          <Route path="/my-quizzes" component={MyQuizzes}/>
+          <Route path="/community-quizzes" component={CommunityQuizzes}/>
+          <Route path="/view-quiz" component={ViewQuiz}/>
           <Route path="*">
             <Redirect to  = "/" />
           </Route>

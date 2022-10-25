@@ -1,22 +1,40 @@
 import React from 'react';
 import Sidebar from '../Sidebar/Sidebar';
 import axios from 'axios';
-import './MyQuizzes.css';
+import './CommunityQuizzes.css';
+import Toast from '../Toast/Toast';
 
-export default class MyQuizzes extends React.Component {
-
+export default class CommunityQuizzes extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            quizzes: []
+            quizzes: [],
+            showToast: false,
+            message: ''
         }
     }
 
     componentDidMount() {
-        axios.get('/api/quizzes/my-quizzes/' + localStorage.getItem('_ID')).then(res => {
+        axios.get('/api/quizzes/all-quizzes').then(res => {
             this.setState({
                 quizzes: res.data
             })
+        })
+    }
+
+    likeQuiz = (quizId) => {
+        axios.post('/api/quizzes/like-quiz', {quizId: quizId, userId: localStorage.getItem('_ID')}).then(res => {
+            if (res.data) {
+                this.setState({showToast: true, message: res.data.message});
+                axios.get('/api/quizzes/all-quizzes').then(res => {
+                    this.setState({
+                        quizzes: res.data
+                    })
+                })
+                setTimeout(() => {
+                    this.setState({showToast: false, message: res.data.message});
+                }, 3000);
+            }
         })
     }
 
@@ -26,12 +44,13 @@ export default class MyQuizzes extends React.Component {
 
     render() {
         return (
-            <div className="my-quizzes-wrapper">
+            <div className="community-quizzes-wrapper">
+                <Toast model={this.state.showToast} message={this.state.message} />
                 <div>
                     <Sidebar />
                 </div>
                 <div className="body">
-                    <div className="header-top">My Quizzes</div>
+                    <div className="header-top">Community Quizzes</div>
                     <div className="quizzes-wrapper">
                         {this.state.quizzes.map((quiz, idx) => (
                             <div key={idx} className="quiz-card card">
@@ -42,8 +61,7 @@ export default class MyQuizzes extends React.Component {
                                 <div className="take-quiz btn" onClick={() => this.takeQuiz(quiz._id)}>Take Quiz</div>
 
                                 <div className="top-section">
-                                    <div className="views">{quiz.views} <img src="https://www.pngkit.com/png/full/525-5251817_security-governance-privacy-eye-icon-font-awesome.png" /> </div>
-                                    <div className="likes">{quiz.likes} <img src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678087-heart-512.png" /></div>
+                                    <div className="likes">{quiz.likes} <img style={{cursor: 'pointer', padding: '5px'}} onClick={() => this.likeQuiz(quiz._id)} src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678087-heart-512.png" /></div>
                                 </div>
                             </div>
                         ))}
@@ -51,5 +69,5 @@ export default class MyQuizzes extends React.Component {
                 </div>
             </div>
         )
-    }       
+    }
 }
