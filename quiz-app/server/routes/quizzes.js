@@ -1,7 +1,7 @@
 const express = require('express');
 const Quizzes = require('../models/Quiz');
 const checkAuth = require('../middleware/check-auth');
-
+const Scores = require('../models/Scores')
 
 const router = express.Router();
 

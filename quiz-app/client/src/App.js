@@ -7,6 +7,9 @@ import CreateQuiz from "./components/CreateQuiz/CreateQuiz"
 import CommunityQuizzes from "./components/CommunityQuizzes/CommunityQuizzes";
 import MyQuizzes from "./components/MyQuizzes/MyQuizzes";
 import ViewQuiz from "./components/ViewQuiz/ViewQuiz";
+import TakeQuiz from "./components/TakeQuiz/TakeQuiz";
+import Profile from "./components/Profile/Profile";
+import ViewResults from "./components/ViewResults/ViewResults";
 import store from './store';
 
 
@@ -37,6 +40,9 @@ class App extends React.Component{
           <Route path="/my-quizzes" component={MyQuizzes}/>
           <Route path="/community-quizzes" component={CommunityQuizzes}/>
           <Route path="/view-quiz" component={ViewQuiz}/>
+          <Route path="/take-quiz" component={TakeQuiz}/>
+          <Route path="view-results" component={ViewResults}/>
+          <Route path="/account" component={Profile}/>
           <Route path="*">
             <Redirect to  = "/" />
           </Route>
