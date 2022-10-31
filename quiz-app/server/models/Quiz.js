@@ -26,6 +26,10 @@ const QuizSchema = new Schema({
         type: String,
         required: true
     },
+    skills:{
+        type: String,
+        required: true
+    },
     imgUrl: {
         type: String,
         required: false

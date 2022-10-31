@@ -13,6 +13,8 @@ export default class CreateQuiz extends React.Component {
        this.state = {
            categories: ['Math', 'Science', 'Technology', 'Sports', 'History', 'Misc'],
            categoryVal: 'Math',
+           skills: ['SK1','SK2','SK3'],
+           skillsVal: 'SK1',
            mustBeSignedIn: false,
            questions: [],
            name: '',
@@ -80,7 +82,8 @@ export default class CreateQuiz extends React.Component {
            name: this.state.name,
            questions: this.state.questions,
            category: this.state.categoryVal,
-           imgUrl: this.state.imgUrl
+           imgUrl: this.state.imgUrl,
+           skills: this.state.skillsVal
        }
        axios.post('/api/quizzes/create', {quiz, createdBy: localStorage.getItem('_ID')}).then(res => {
         if (res.data.success) {
@@ -88,7 +91,8 @@ export default class CreateQuiz extends React.Component {
                 questions: [], 
                 answers: [],
                 categoryVal: "Math",
-                showToast: true
+                showToast: true,
+                skillsVal:"SK1"
             });
             setTimeout(() => {
                 this.setState({showToast: false});
@@ -116,6 +120,11 @@ export default class CreateQuiz extends React.Component {
                        <br></br>
                        <select value={this.state.categoryVal} onChange={e => this.setState({categoryVal: e.target.value})} className="input select" placeholder="Category">
                            {this.state.categories.map((cat, idx) => (
+                               <option key={idx} value={cat}>{cat}</option>
+                           ))}
+                       </select>
+                       <select value={this.state.skillsVal} onChange={e => this.setState({skillsVal: e.target.value})} className="input select" placeholder="Skills">
+                           {this.state.skills.map((cat, idx) => (
                                <option key={idx} value={cat}>{cat}</option>
                            ))}
                        </select>

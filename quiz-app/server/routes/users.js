@@ -100,4 +100,4 @@ router.post('/upload-image', checkAuth, async(req, res) => {
     }
 })
 
-module.exports = router;
+module.exports = router; 
