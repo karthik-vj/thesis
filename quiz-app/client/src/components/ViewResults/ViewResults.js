@@ -21,7 +21,8 @@ export default class ViewResults extends React.Component {
         } else {
             let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id;
             if (!id) {
-                this.props.history.push('/');
+                //this.props.history.push('/');
+                console.log('didnt work')
             } else {
                 axios.get('/api/quizzes/results/' + id).then(res => {
                     this.setState({ result: res.data.score, quiz: res.data.quiz})

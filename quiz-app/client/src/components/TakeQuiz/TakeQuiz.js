@@ -82,6 +82,7 @@ export default class TakeQuiz extends React.Component {
         }).then(res => {
             if (res.data) {
                 this.props.history.push('/view-results?id=' + res.data.scoreId);
+                document.location.reload()
             }
         })
     }

@@ -1,10 +1,10 @@
 const express = require('express');
 const Quizzes = require('../models/Quiz');
 const checkAuth = require('../middleware/check-auth');
-const Scores = require('../models/Scores')
+const Users = require('../models/users');
+const Score = require('../models/Scores');
 
 const router = express.Router();
-
 
 router.post('/create', checkAuth, (req, res) => {
     let quiz = new Quizzes({
@@ -133,6 +133,5 @@ router.get('/results/:id', checkAuth, (req, res) => {
         })
     }
 })
-
 
 module.exports = router;

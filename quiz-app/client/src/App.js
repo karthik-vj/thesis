@@ -41,7 +41,7 @@ class App extends React.Component{
           <Route path="/community-quizzes" component={CommunityQuizzes}/>
           <Route path="/view-quiz" component={ViewQuiz}/>
           <Route path="/take-quiz" component={TakeQuiz}/>
-          <Route path="view-results" component={ViewResults}/>
+          <Route path="/view-results" component={ViewResults}/>
           <Route path="/account" component={Profile}/>
           <Route path="*">
             <Redirect to  = "/" />
