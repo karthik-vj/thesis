@@ -21,6 +21,10 @@ const ScoreSchema = new Schema({
     deleted: {
         type: Boolean,
         default: false
+    },
+    accountResult:{
+        type: Number,
+        default: 0
     }
 });
 

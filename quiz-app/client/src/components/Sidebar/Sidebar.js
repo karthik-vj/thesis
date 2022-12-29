@@ -33,10 +33,11 @@ export default class Sidebar extends React.Component {
                     </div>
                     <div className="links">
                         <NavLink to="/dashboard"><div className="link">Dashboard</div></NavLink>
-                        <NavLink to="/account"><div className="link">Account</div></NavLink>
                         <NavLink to="/my-quizzes"><div className="link">My Quizzes</div></NavLink>
                         <NavLink to="/create-quiz"><div className="link">Create Quiz</div></NavLink>
-                        <NavLink to="/community-quizzes"><div className="link">Community quizzes</div></NavLink>
+                        
+                        <NavLink to="/create-hangman"><div className="link">Create Hangman</div></NavLink>
+                        
                     </div>
                     </div>
             )

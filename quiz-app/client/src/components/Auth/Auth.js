@@ -19,8 +19,9 @@ import Toast from '../Toast/Toast';
     }
 
     signIn = (email, password) => {
-        axios.post('/api/users/login', {email, password}).then(res => {
-            if (res.data.success) {
+        axios.post('/api/users/login', {email, password}).then(res => {console.log(res)
+            if (res.data.success && res.data.user.accountType === "admin") {
+                console.log(res.data)
                 store.dispatch({
                     type: 'login',
                     _id: res.data.user._id,
@@ -29,6 +30,7 @@ import Toast from '../Toast/Toast';
                 });
                 this.props.history.push("/dashboard");
                 document.location.reload()
+                
             }else
             {
                 this.setState({
@@ -39,11 +41,36 @@ import Toast from '../Toast/Toast';
                 }, 3000)
 
             }
+            if(res.data.success && res.data.user.accountType === "student"){
+                store.dispatch({
+                    type: 'login',
+                    _id: res.data.user._id,
+                    user: res.data.user,
+                    token: res.data.token
+                });
+                this.props.history.push("/admin");
+                document.location.reload()
+                
+            }else
+            {
+                this.setState({
+                    showToast: true
+                });
+                setTimeout(()=>{
+                    this.setState({showToast:false})
+                }, 3000)
+
+            }
+
+            if(res.data.success && res.data.user.accountType === "null"){
+                alert('Wait till your account gets approved by your school')
+
+            }
         }).catch(er =>{
             console.log(er)
         })
         
-    }
+    } 
 
     signUp = ({firstName, lastName, email, password}) => {
         axios.post('api/users/register',{firstName, lastName, email,password}).then(res =>{

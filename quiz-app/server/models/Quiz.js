@@ -1,9 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// mustBeSignedIn: this.state.mustBeSignedIn,
-//name: this.state.name,
-//questions: this.state.questions,
-//category: this.state.categoryVal
 
 const QuizSchema = new Schema({
     mustBeSignedIn: {
@@ -61,6 +57,10 @@ const QuizSchema = new Schema({
     deleted: {
         type: Boolean,
         default: false
+    },
+    passGrade: {
+        type : Number,
+        default: 0
     }
 })
 

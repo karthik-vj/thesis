@@ -10,6 +10,12 @@ import ViewQuiz from "./components/ViewQuiz/ViewQuiz";
 import TakeQuiz from "./components/TakeQuiz/TakeQuiz";
 import Profile from "./components/Profile/Profile";
 import ViewResults from "./components/ViewResults/ViewResults";
+import CreateHangman from "./components/CreateHangman/CreateHangman";
+import ViewHangman from "./components/ViewHangman/ViewHangman";
+import TakeHangman from "./components/TakeHangman/TakeHangman";
+import CommunityHangman from "./components/CommunityQuizzes/CommunityHangman"
+import Adminauth from "./components/Auth/Adminauth";
+
 import store from './store';
 
 
@@ -32,17 +38,22 @@ class App extends React.Component{
   {
     return (
       <div className="App">
-       <Router>
+       <Router forceRefresh = {true}>
         <Switch>
           <Route exact path="/" component ={Auth}/>
           <Route path="/dashboard" component={Dashboard}/>
           <Route path="/create-quiz" component={CreateQuiz}/>
           <Route path="/my-quizzes" component={MyQuizzes}/>
           <Route path="/community-quizzes" component={CommunityQuizzes}/>
+          <Route path= "/community-hangman" component={CommunityHangman}/>
           <Route path="/view-quiz" component={ViewQuiz}/>
           <Route path="/take-quiz" component={TakeQuiz}/>
           <Route path="/view-results" component={ViewResults}/>
           <Route path="/account" component={Profile}/>
+          <Route path="/create-hangman" component={CreateHangman}/>
+          <Route path="/view-hangman" component={ViewHangman}/>
+          <Route path="/take-hangman" component={TakeHangman}/>
+          <Route path="/admin" component={Adminauth}/>
           <Route path="*">
             <Redirect to  = "/" />
           </Route>

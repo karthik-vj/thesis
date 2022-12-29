@@ -6,14 +6,19 @@ const checkAuth = require('../middleware/check-auth');
 const { cloudinary } = require('../config/cloudinary');
 const { loginValidator, registerValidator } = require("../validators/validators");
 
+const CryptoJS = require("crypto-js");
+const { updateOne } = require('../models/users');
+
 const router = express.Router();
 
 router.post('/login', (req, res) => {
+    
     const { errors, isValid } = loginValidator(req.body);
     if (!isValid) {
         res.json({ success: false, errors });
     } else {
         Users.findOne({ email: req.body.email }).then(user => {
+            
             if (!user) {
                 res.json({ message: 'Email does not exist', success: false });
             } else {
@@ -38,7 +43,7 @@ router.post('/login', (req, res) => {
                         )
                     }
                 })
-            }
+            } 
         })
     }
 })
@@ -54,7 +59,7 @@ router.post('/register', (req, res) => {
             lastName,
             email,
             password,
-            createdAt: new Date()
+            createdAt: new Date(),
         });
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(registerUser.password, salt, (hashErr, hash) => {
@@ -71,12 +76,35 @@ router.post('/register', (req, res) => {
     }
 })
 
-router.get('/:id', checkAuth, (req, res) => {
+router.get('/all-users',checkAuth,( req, res) => {
+    Users.find().then(result => {
+        res.status(200).json(result);
+    })
+  });
+
+  
+router.get('/:id', (req, res) => {
     Users.findOne({ _id: req.params.id }).then(user => {
         res.json({ user, success: true })
     }).catch(er => {
         res.json({ success: false, message: er.message });
     })
+})
+
+router.post('/update-user/:id', (req,res)=>{
+    Users.findByIdAndUpdate({_id: req.params.id},{$set: {accountType: req.body.accountType}}).then(user =>{
+        res.status(200).json(user)
+    }).catch(er=>{
+        res.message(er)
+    })
+})  
+
+router.put('/update/:id', async (req,res)=>{
+    let result = await Users.updateOne({userId: req.params.id},
+        {$set: {
+            accountType: req.body.accountType
+        }})
+    res.json(result)
 })
 
 router.post('/upload-image', checkAuth, async(req, res) => {

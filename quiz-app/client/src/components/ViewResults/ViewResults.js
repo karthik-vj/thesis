@@ -21,14 +21,16 @@ export default class ViewResults extends React.Component {
         } else {
             let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id;
             if (!id) {
-                //this.props.history.push('/');
+                this.props.history.push('/');
                 console.log('didnt work')
             } else {
                 axios.get('/api/quizzes/results/' + id).then(res => {
+                    console.log(res.data)
                     this.setState({ result: res.data.score, quiz: res.data.quiz})
                 })
             }
         }
+       
     }
 
     getBorderLeft = idx => {
@@ -41,8 +43,27 @@ export default class ViewResults extends React.Component {
 
     getScore = () => {
         let len = this.state.result.answers.length;
+        let pass = this.state.quiz.passGrade;
         let right = this.state.result.answers.filter(ans => ans === true);
-        return (100 * (right.length / len)) + '%';
+        let score = 10 * (right.length / len);
+        console.log(pass,score)
+         return(score)
+        //update new calc: newScore = oldScore + (1 - oldScore)* presentScore 
+        // AccountScore : oldScore
+        //compare with pass grade
+    }
+    updateScore = ()=>{
+        /* axios.put("/api/quizzes/save-result",{
+            accountResult : this.getScore()
+            }).then(res =>
+            {if(res.data)
+                {console.log(res)}
+            })
+        let acc = this.state.result.accountResult
+        let presentScore = this.getScore()
+        let newScore = acc + ( 10 - acc)* presentScore
+        return newScore*/
+        this.props.history.push('/dashboard')
     }
     
     render() {
@@ -65,11 +86,13 @@ export default class ViewResults extends React.Component {
                             <div className="right">
                                 <div className="likes">{this.state.quiz.likes} Likes</div>
                                 <div className="others">{this.state.quiz.scores.length} Other people have taken this quiz</div>
+                                
                             </div>
                         </div>
 
                         <div className="score">
-                           Score: {this.getScore()}
+                            {this.getScore() >= this.state.quiz.passGrade ?
+                          <div> Score: You Passed and Your Score is {this.getScore()}</div>: <div>Score: Better Luck Next Time, Your Score is {this.getScore()}</div> }
                         </div>
 
                         <div className="answers"> 
@@ -83,7 +106,11 @@ export default class ViewResults extends React.Component {
                         <div className="img">
                             <img src={this.state.quiz.imgUrl ? this.state.quiz.imgUrl : 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'} />
                         </div>
+                        <div>
+                        <button className='take-quiz-button' onClick={this.updateScore}>Account</button>
+                        </div>
                     </div>
+                    
                 }
             </div>
         )

@@ -1,6 +1,5 @@
 import React from 'react';
 import './TakeQuiz.css';
-
 import $ from 'jquery';
 import ProgressBar from '../ProgressBar/ProgressBar';
 import axios from 'axios';
@@ -20,7 +19,7 @@ export default class TakeQuiz extends React.Component {
 
     componentDidMount() {
         $('#modal-wrapper-quiz').hide();
-        if (this.props.location.state != undefined) {
+        if (this.props.location.state !== undefined) {
             this.setState({authorized: true});
             this.setState({quiz: this.props.location.state.quiz, answers: Array(this.props.location.state.quiz.questions.length).fill(0)});
         }
@@ -82,6 +81,7 @@ export default class TakeQuiz extends React.Component {
         }).then(res => {
             if (res.data) {
                 this.props.history.push('/view-results?id=' + res.data.scoreId);
+                console.log(res.data.scoreId)
                 document.location.reload()
             }
         })

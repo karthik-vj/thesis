@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
+    
     firstName: {
         type: String,
         required: true
@@ -42,7 +43,13 @@ const UserSchema = new Schema({
     deleted: {
         type: Boolean,
         default: false
+    },
+    accountType: {
+        type: String,
+        required: false,
+        default: null
     }
 })
+
 
 module.exports = User = mongoose.model('Users', UserSchema);

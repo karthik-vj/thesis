@@ -23,7 +23,8 @@ export default class CreateQuiz extends React.Component {
            answers: [],
            correctAnswer: '',
            showToast: false,
-           imgUrl: ''
+           imgUrl: '',
+           passGrade: ''
        }
    }
    componentDidMount(){
@@ -83,7 +84,8 @@ export default class CreateQuiz extends React.Component {
            questions: this.state.questions,
            category: this.state.categoryVal,
            imgUrl: this.state.imgUrl,
-           skills: this.state.skillsVal
+           skills: this.state.skillsVal,
+           passGrade: this.state.passGrade
        }
        axios.post('/api/quizzes/create', {quiz, createdBy: localStorage.getItem('_ID')}).then(res => {
         if (res.data.success) {
@@ -116,7 +118,7 @@ export default class CreateQuiz extends React.Component {
                    <div className="form card">
                        <input className="input" onChange={e => this.setState({name: e.target.value})} value={this.state.name} placeholder="Quiz Name" />
                        <br></br>
-                       <input className="input" onChange={e => this.setState({imgUrl: e.target.value})} value={this.state.imgUrl} placeholder="Img url" />
+                       <input className="input" onChange={e => this.setState({passGrade: e.target.value})} value={this.state.passGrade} placeholder="Pass Grade" />
                        <br></br>
                        <select value={this.state.categoryVal} onChange={e => this.setState({categoryVal: e.target.value})} className="input select" placeholder="Category">
                            {this.state.categories.map((cat, idx) => (

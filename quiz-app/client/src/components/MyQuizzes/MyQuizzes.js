@@ -17,13 +17,28 @@ export default class MyQuizzes extends React.Component {
             this.setState({
                 quizzes: res.data
             })
-        })
+        })/*
+
+        
+        axios.get('/api/hangmans/my-hangman/' + localStorage.getItem('_ID')).then(res => {
+            console.log(res.data[0].questions[0].questionName)
+            console.log(res.data)
+            this.setState({
+                quizzes: res.data
+                
+            })
+        })*/
     }
 
     takeQuiz = (quizId) => {
         this.props.history.push('/view-quiz?id=' + quizId);
         document.location.reload()
-    }
+    }/*
+    
+    takeQuiz = (hangmanId) => {
+        this.props.history.push('/view-hangman?id=' + hangmanId);
+        document.location.reload()
+    }*/
 
     render() {
         return (
@@ -41,7 +56,7 @@ export default class MyQuizzes extends React.Component {
                                 <div className="category">{quiz.category}</div>
                                 <div className="skill">{quiz.skills}</div>
                                 <div className="questions">{quiz.questions.length} Questions</div>
-                                <div className="take-quiz btn" onClick={() => this.takeQuiz(quiz._id)}>Take Quiz</div>
+                                <div className="take-quiz btn" onClick={() => this.takeQuiz(quiz._id) }>Take Quiz</div>
 
                                 <div className="top-section">
                                     <div className="views">{quiz.views} <img src="https://www.pngkit.com/png/full/525-5251817_security-governance-privacy-eye-icon-font-awesome.png" /> </div>

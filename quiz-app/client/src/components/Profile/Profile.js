@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 
-import Sidebar from '../Sidebar/Sidebar';
+import Sidebar from '../Sidebar/Sidebar2';
 import Toast from '../Toast/Toast';
 import './Profile.css';
 
@@ -105,7 +105,7 @@ export default class Profile extends React.Component {
                                         <input onChange={(e) => this.handleFileInputChange(e)} type="file" />
                                         {this.state.previewSource ?
                                             <img className="display-image" src={this.state.previewSource} />
-                                            : (this.state.user.avatar && this.state.user.avatar.url ? <img style={{borderRadius: '50%', objectFit: 'cover', margin: '20px auto 0 25px', width: '25vw', height: '25vw'}} className="display-image" src={this.state.user.avatar.url} />  : <img className="display-image" src={this.state.previewSource} /> )}
+                                            : (this.state.user.avatar && this.state.user.avatar.url ? <img style={{borderRadius: '5px', objectFit: 'cover', margin: '20px auto 0 25px', width: '15vw', height: '15vw'}} className="display-image" src={this.state.user.avatar.url} />  : <img className="display-image" src={this.state.previewSource} /> )}
                                     </div>
                                     <div style={{color: this.state.message === 'Success' ? 'green' : 'red', fontSize: '.8em', margin: '20px 0'}}>{ this.state.message }</div>
                                     <button className="image-btn" style={{marginTop: '20px'}} onClick={(e) => this.handleSubmitFile(e)}>Save</button>

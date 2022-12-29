@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 const userRoutes = require('../server/routes/users')
 const quizRoutes = require('./routes/quizzes')
+const hangmanRoutes = require('./routes/HangamansRoute')
+const resultRoutes = require('./routes/results')
 require('dotenv').config();
 
 const app = express()
@@ -16,6 +18,8 @@ app.use(bodyParser.json({limit: '20mb'}));
 
 app.use('/api/users/', userRoutes);
 app.use('/api/quizzes/', quizRoutes);
+app.use('/api/hangmans/', hangmanRoutes)
+app.use('/api/results/', resultRoutes)
 
 mongoose.connect(process.env.DB_URI,{
     useUnifiedTopology : true,

@@ -42,7 +42,7 @@ export default class ViewQuiz extends React.Component {
 
     startQuiz = () => {
         this.props.history.push({ 
-            pathname: "/take-quiz/" + this.state.id,
+            pathname: '/take-quiz/' + this.state.id,
             state: {
                 quiz: this.state.quiz
             }
@@ -75,7 +75,7 @@ export default class ViewQuiz extends React.Component {
                             <div className="comments">
                                 {this.state.quiz.comments.map((com, idx) => (
                                     <div className="comment" key={idx}>
-                                        <img style={{borderRadius: '100%'}} className="img" src="https://img.pngio.com/png-avatar-108-images-in-collection-page-3-png-avatar-300_300.png" />
+                                        <img style={{borderRadius: '100%'}} className="img" src="https://img.pngio.com/png-avatar-108-images-in-collection-page-3-png-avatar-300_300.png" alt=''/>
                                         <div>{com.message}</div>
                                         <div>{com.sentFromName}</div>
                                     </div>

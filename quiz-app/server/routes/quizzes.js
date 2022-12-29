@@ -99,7 +99,7 @@ router.post('/save-results', checkAuth, (req, res) => {
     let score = new Score({
         userId: req.body.currentUser,
         answers: req.body.answers,
-        quizId: req.body.quizId
+        quizId: req.body.quizId,
     });
     score.save().then(async resp => {
         await Quizzes.updateOne({ _id: req.body.quizId }, {
@@ -110,6 +110,7 @@ router.post('/save-results', checkAuth, (req, res) => {
         res.status(200).json({scoreId: resp._id});
     })
 });
+
 
 router.get('/results/:id', checkAuth, (req, res) => {
     if (!req.params.id) {
@@ -133,5 +134,6 @@ router.get('/results/:id', checkAuth, (req, res) => {
         })
     }
 })
+
 
 module.exports = router;

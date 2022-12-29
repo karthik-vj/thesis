@@ -16,6 +16,7 @@ export default class CommunityQuizzes extends React.Component {
 
     componentDidMount() {
         axios.get('/api/quizzes/all-quizzes').then(res => {
+            console.log(res.data)
             this.setState({
                 quizzes: res.data
             })
@@ -57,6 +58,7 @@ export default class CommunityQuizzes extends React.Component {
                                 <img src={quiz.imgUrl || 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'} />
                                 <div className="quiz-name">{quiz.name}</div>
                                 <div className="category">{quiz.category}</div>
+                                <div className="skill">{quiz.skills}</div>
                                 <div className="questions">{quiz.questions.length} Questions</div>
                                 <div className="take-quiz btn" onClick={() => this.takeQuiz(quiz._id)}>Take Quiz</div>
 
