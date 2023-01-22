@@ -10,9 +10,8 @@ export default class ViewResults extends React.Component {
         super(props);
         this.state = {
             result: null,
-            quiz: null,
-            score: 0,
-            student:{}
+            hangman: null,
+            score: 0
         }
     }
 
@@ -22,17 +21,17 @@ export default class ViewResults extends React.Component {
             localStorage.clear();
         } else {
             let id = qs.parse(this.props.location.search, { ignoreQueryPrefix: true }).id;
-            console.log(id)
             if (!id) {
                 this.props.history.push('/');
-                console.log('didnt work')
+                console.log('id',id)
             } else {
-                axios.get('/api/quizzes/results/' + id).then(res => {
-                    console.log(res.data)
-                    this.setState({ result: res.data.score, quiz: res.data.quiz})
-                })
+                axios.get('/api/hangmans/results/' + id).then(res => {
+                   console.log(res.data)
+                   this.setState({ result: res.data.score, hangman: res.data.hangman})
+                }).catch(er=>{ console.log(er.response.data) })
             }
         }
+       
     }
 
     getBorderLeft = idx => {
@@ -45,57 +44,49 @@ export default class ViewResults extends React.Component {
 
     getScore = () => {
         let len = this.state.result.answers.length;
-        let pass = this.state.quiz.passGrade;
+        let pass = this.state.hangman.passGrade;
         let right = this.state.result.answers.filter(ans => ans === true);
         let score = 10 * (right.length / len);
         this.setState({score: score})
          return(score)
     }
     updateScore = ()=>{
-                
-       let id = this.state.result._id
+        let id = this.state.result._id
         let accountResult = this.state.score
-        axios.put("/api/quizzes/update-results/"+id,{accountResult: accountResult}).then(res =>
+        axios.put("/api/hangmans/update-results/"+id,{accountResult: accountResult}).then(res =>
             {
                 if(res.data)
             {
                 console.log(res)
             }
-            })
+            }).catch((err) => { console.log(err.response.data) })
         this.props.history.push('/dashboard')
     }
-
-   
     
     render() {
         return (
             <div className="view-results-wrapper">
                 
-                {(this.state.quiz && this.state.result) && 
+                {(this.state.hangman && this.state.result) && 
                     <div className="body">
                         <div className="header">
-                            Quiz Results 
+                            Hangman Results 
                         </div>
                         <div className="quiz-data">
                             <div className="left">
-                                <div className="header">{this.state.quiz.name}</div>
-                                <div className="category">{this.state.quiz.category}</div>
-                                <div className="comments">{this.state.quiz.comments.length} Comments</div>
-                            </div>
-                            <div className="right">
-                                <div className="likes">{this.state.quiz.likes} Likes</div>
-                                <div className="others">{this.state.quiz.scores.length} Other people have taken this quiz</div>
+                                <div className="header">{this.state.hangman.name}</div>
+                                <div className="category">{this.state.hangman.category}</div>
                                 
                             </div>
                         </div>
 
                         <div className="score">
-                            {this.getScore() >= this.state.quiz.passGrade ?
+                            {this.getScore() >= this.state.hangman.passGrade ?
                           <div> Score: You Passed and Your Score is {this.getScore()}</div>: <div>Score: Better Luck Next Time, Your Score is {this.getScore()}</div> }
                         </div>
 
                         <div className="answers"> 
-                            {this.state.quiz.questions.map((q, idx) => (
+                            {this.state.hangman.questions.map((q, idx) => (
                                 <div key={idx} className="answer" style={{borderLeft: this.getBorderLeft(idx)}}>
                                     <div>{q.questionName}</div>
                                 </div> 
@@ -103,12 +94,11 @@ export default class ViewResults extends React.Component {
                         </div>
 
                         <div className="img">
-                            <img src={this.state.quiz.imgUrl ? this.state.quiz.imgUrl : 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'} />
+                            <img src={this.state.hangman.imgUrl ? this.state.hangman.imgUrl : 'https://images.unsplash.com/photo-1518770660439-4636190af475?ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8dGVjaG5vbG9neXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80'} />
                         </div>
                         <div>
                         <button className='take-quiz-button' onClick={this.updateScore}>Account</button>
                         </div>
-                        
                     </div>
                     
                 }

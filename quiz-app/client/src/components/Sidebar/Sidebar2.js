@@ -25,7 +25,7 @@ export default class Sidebar extends React.Component {
         if (store.getState().user) {
             return (
                 <div className="sidebar-wrapper">
-                    <div className="header">Quiz Itt</div>
+                    <div className="header">NoName Game Editor</div>
     
                     <div className="user">
                         <div className="avatar" style={{backgroundImage: this.bgImage()}}></div>

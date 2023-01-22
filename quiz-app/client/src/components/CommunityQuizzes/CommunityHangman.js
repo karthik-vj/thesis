@@ -34,7 +34,7 @@ export default class CommunityQuizzes extends React.Component {
                     <Sidebar />
                 </div>
                 <div className="body">
-                    <div className="header-top">Community Quizzes</div>
+                    <div className="header-top">Community Hangman</div>
                     <div className="quizzes-wrapper">
                         {this.state.hangman.map((hangman, idx) => (
                             <div key={idx} className="quiz-card card">
@@ -43,7 +43,7 @@ export default class CommunityQuizzes extends React.Component {
                                 <div className="category">{hangman.category}</div>
                                 <div className="skill">{hangman.skills}</div>
                                 <div className="questions">{hangman.questions.length} Questions</div>
-                                <div className="take-quiz btn" onClick={() => this.takeHangman(hangman._id)}>Take Quiz</div>
+                                <div className="take-quiz btn" onClick={() => this.takeHangman(hangman._id)}>Play</div>
 
                                 <div className="top-section">
                                     <div className="likes">{hangman.likes} <img style={{cursor: 'pointer', padding: '5px'}} onClick={() => this.likeQuiz(hangman._id)} src="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678087-heart-512.png" /></div>

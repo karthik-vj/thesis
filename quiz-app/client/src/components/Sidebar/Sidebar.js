@@ -25,14 +25,14 @@ export default class Sidebar extends React.Component {
         if (store.getState().user) {
             return (
                 <div className="sidebar-wrapper">
-                    <div className="header">Quiz Itt</div>
+                    <div className="header">NoName Game Editor</div>
     
                     <div className="user">
                         <div className="avatar" style={{backgroundImage: this.bgImage()}}></div>
                         <div className="name">{store.getState().user.firstName + ' ' + store.getState().user.lastName}</div>
                     </div>
                     <div className="links">
-                        <NavLink to="/dashboard"><div className="link">Dashboard</div></NavLink>
+                        
                         <NavLink to="/my-quizzes"><div className="link">My Quizzes</div></NavLink>
                         <NavLink to="/create-quiz"><div className="link">Create Quiz</div></NavLink>
                         

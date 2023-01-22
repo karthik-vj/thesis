@@ -19,9 +19,8 @@ import Toast from '../Toast/Toast';
     }
 
     signIn = (email, password) => {
-        axios.post('/api/users/login', {email, password}).then(res => {console.log(res)
-            if (res.data.success && res.data.user.accountType === "admin") {
-                console.log(res.data)
+        axios.post('/api/users/login', {email, password}).then(res => {
+            if (res.data.success && res.data.user.accountType === "student") {
                 store.dispatch({
                     type: 'login',
                     _id: res.data.user._id,
@@ -31,17 +30,8 @@ import Toast from '../Toast/Toast';
                 this.props.history.push("/dashboard");
                 document.location.reload()
                 
-            }else
-            {
-                this.setState({
-                    showToast: true
-                });
-                setTimeout(()=>{
-                    this.setState({showToast:false})
-                }, 3000)
-
             }
-            if(res.data.success && res.data.user.accountType === "student"){
+            if(res.data.success && res.data.user.accountType === "admin"){
                 store.dispatch({
                     type: 'login',
                     _id: res.data.user._id,
@@ -51,21 +41,22 @@ import Toast from '../Toast/Toast';
                 this.props.history.push("/admin");
                 document.location.reload()
                 
-            }else
-            {
-                this.setState({
-                    showToast: true
+            }if(res.data.success && res.data.user.accountType === "teacher"){
+                store.dispatch({
+                    type: 'login',
+                    _id: res.data.user._id,
+                    user: res.data.user,
+                    token: res.data.token
                 });
-                setTimeout(()=>{
-                    this.setState({showToast:false})
-                }, 3000)
-
+                this.props.history.push("/create-quiz");
+                document.location.reload()
+                
             }
-
-            if(res.data.success && res.data.user.accountType === "null"){
+             if(res.data.success && res.data.user.accountType === "null"){
                 alert('Wait till your account gets approved by your school')
 
             }
+            
         }).catch(er =>{
             console.log(er)
         })
@@ -97,8 +88,8 @@ import Toast from '../Toast/Toast';
                 </div>
 
                 <div className="right">
-                    <div className="header">Quiz itt</div>
-                    <div className="sub-header">Welcome to Quiz itt</div>
+                    <div className="header">NoName Game Editor</div>
+                    <div className="sub-header">Welcome</div>
                     {page}
                     <div className="new" onClick={this.changeTab}>{this.state.tab === 'signin' ? 'New to Quiz itt? Sign up here' : 'Already have an account with us? Sign in'}</div>
                 </div>

@@ -26,6 +26,14 @@ const QuizSchema = new Schema({
         type: String,
         required: true
     },
+    concept:{
+        type: String,
+        required: false
+    },
+    conceptDescription:{
+        type: String,
+        required: false
+    },
     imgUrl: {
         type: String,
         required: false

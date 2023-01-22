@@ -35,7 +35,7 @@ export default class TakeHangman extends React.Component {
   componentDidMount() {
     $('#modal-wrapper-hangman').hide();
     if (this.props.location.state !== undefined) {
-      console.log('componentDidMount', this.props.location.state);
+      
       this.setState({ authorized: true });
       let hangman = this.props.location.state.hangman;
       hangman.questions.map((question) => {
@@ -46,7 +46,7 @@ export default class TakeHangman extends React.Component {
         hangman: hangman,
         answers: Array(hangman.questions.length).fill(0),
         mistake: Array(hangman.questions.length).fill(0),
-        guessed: Array(hangman.questions.length).fill(new Set([]))
+        guessed: Array(hangman.questions.length).fill('')
       });
 
     }
@@ -57,6 +57,7 @@ export default class TakeHangman extends React.Component {
     newIdx--;
     if (newIdx < 0) return;
     this.setState({ activeQuestionIdx: newIdx });
+    
   }
 
   nextQuestion = () => {
@@ -64,6 +65,10 @@ export default class TakeHangman extends React.Component {
     newIdx++;
     if (newIdx === this.state.hangman.questions.length) return;
     this.setState({ activeQuestionIdx: newIdx });
+    
+    console.log("score", this.state.score)
+    console.log(this.state.answers)
+    this.Score()
   }
 
   getPercentage = (ans) => {
@@ -87,13 +92,13 @@ export default class TakeHangman extends React.Component {
   }
 
   finishHangman = () => {
-    axios.post("/api/hangmanzes/save-results", {
+    axios.post('/api/hangmans/save-results', {
       currentUser: localStorage.getItem('_ID'),
       answers: this.state.answers,
       hangmanId: this.state.hangman._id
     }).then(res => {
       if (res.data) {
-        this.props.history.push('/view-results?id=' + res.data.scoreId);
+        this.props.history.push('/view-hangmanresults?id=' + res.data.scoreId);
         console.log(res.data.scoreId)
         document.location.reload()
       }
@@ -104,40 +109,47 @@ export default class TakeHangman extends React.Component {
     let letter = e.target.value;
     let mistake = this.state.mistake;
     let guessed = this.state.guessed;
-    mistake[this.state.activeQuestionIdx] = this.state.mistake[this.state.activeQuestionIdx] + (this.state.hangman.questions[this.state.activeQuestionIdx].answers[0].includes(letter) ? 0 : 1)
-    guessed[this.state.activeQuestionIdx] = this.state.guessed[this.state.activeQuestionIdx].add(letter)
+    mistake[this.state.activeQuestionIdx] += this.state.hangman.questions[this.state.activeQuestionIdx].answers[0].includes(letter) ? 0 : 1
+    guessed[this.state.activeQuestionIdx] = guessed[this.state.activeQuestionIdx].concat(letter);
+    console.log(guessed);
     this.setState({
       guessed: guessed,
       mistake: mistake
     })
+    console.log("mistake",mistake)
+    console.log("Guessed",guessed[this.state.activeQuestionIdx])
   }
 
   guessedWord() {
-    console.log('guessedWord', this.state);
     const answer = this.state.hangman.questions[this.state.activeQuestionIdx].answers[0];
-    let guessedWord = answer.split("").map(letter => (this.state.guessed[this.state.activeQuestionIdx].has(letter) ? letter : " _ "));
-    if (guessedWord == answer) {
-      this.setState({
-        score: this.state.score + 1
-      })
-    }
+    let guessedWord = answer.split("").map(letter => (this.state.guessed[this.state.activeQuestionIdx].includes(letter) ? letter : " _ "));
     return guessedWord;
-
+    
   }
 
   generateButtons() {
     return "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("").map(letter => (
       <button
-        class='btn btn-lg btn-primary m-2'
+        className='btn btn-lg btn-primary m-2'
         key={letter}
         value={letter}
         onClick={this.handleGuess}
-        disabled={this.state.guessed[this.state.activeQuestionIdx].has(letter)}
+        disabled={this.state.guessed[this.state.activeQuestionIdx].includes(letter)}
       >
         {letter}
       </button>
     ));
   }
+  Score = ()=>{
+    
+    if(this.state.hangman.questions[this.state.activeQuestionIdx].answers[0] === this.guessedWord().join("")){
+      this.state.answers[this.state.activeQuestionIdx] = true;
+    } else {
+        this.state.answers[this.state.activeQuestionIdx] = false;
+    }
+    return;
+  }
+  
 
   render() {
     let { hangman, activeQuestionIdx, guessed } = this.state;
@@ -178,7 +190,7 @@ export default class TakeHangman extends React.Component {
                   <p>
                   </p><br></br><br></br>
                   {hangman.questions[this.state.activeQuestionIdx].answers[0] === this.guessedWord().join("")
-                    ? <p>Next</p> :
+                    ? <p>Next</p>:
                     (this.state.mistake[this.state.activeQuestionIdx] === this.props.maxWrong
                       ? <div><p>Max Try reached </p>
                         <p>Click nextQuestion</p></div> :

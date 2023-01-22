@@ -101,7 +101,6 @@ export default class ViewQuiz extends React.Component {
                     </div>
                     <div className="footer">
                         <div className="buttons-wrapper">
-                            <button onClick={() => this.props.history.goBack()}>Go Back</button>
                             <button onClick={this.startQuiz}>Take Quiz</button>
                         </div>
                     </div>

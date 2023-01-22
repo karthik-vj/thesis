@@ -15,7 +15,7 @@ import ViewHangman from "./components/ViewHangman/ViewHangman";
 import TakeHangman from "./components/TakeHangman/TakeHangman";
 import CommunityHangman from "./components/CommunityQuizzes/CommunityHangman"
 import Adminauth from "./components/Auth/Adminauth";
-
+import ViewHangmanResults from "./components/ViewResults/ViewHangmanResults"
 import store from './store';
 
 
@@ -49,6 +49,7 @@ class App extends React.Component{
           <Route path="/view-quiz" component={ViewQuiz}/>
           <Route path="/take-quiz" component={TakeQuiz}/>
           <Route path="/view-results" component={ViewResults}/>
+          <Route path="/view-hangmanresults" component={ViewHangmanResults}/>
           <Route path="/account" component={Profile}/>
           <Route path="/create-hangman" component={CreateHangman}/>
           <Route path="/view-hangman" component={ViewHangman}/>

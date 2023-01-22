@@ -13,8 +13,8 @@ export default class CreateHangman extends React.Component {
         this.state = {
             categories: ['Math', 'Science', 'Technology', 'Sports', 'History', 'Misc'],
             categoryVal: 'Math',
-            skills: ['SK1','SK2','SK3'],
-            skillsVal: 'SK1',
+            skills: "",
+            skillsVal: '',
             mustBeSignedIn: false,
             questions: [],
             name: '',
@@ -92,7 +92,7 @@ export default class CreateHangman extends React.Component {
                  answers: [],
                  categoryVal: "Math",
                  showToast: true,
-                 skillsVal:"SK1"
+                 skillsVal:""
              });
              setTimeout(() => {
                  this.setState({showToast: false});
@@ -123,11 +123,7 @@ export default class CreateHangman extends React.Component {
                             <option key={idx} value={cat}>{cat}</option>
                         ))}
                     </select>
-                    <select value={this.state.skillsVal} onChange={e => this.setState({skillsVal: e.target.value})} className="input select" placeholder="Skills">
-                        {this.state.skills.map((cat, idx) => (
-                            <option key={idx} value={cat}>{cat}</option>
-                        ))}
-                    </select>
+                    <input className="input" onChange={e => this.setState({skillsVal: e.target.value})} value={this.state.skillsVal} placeholder="Skill (here the concept trained/evaluated in the play)" />
                     <div className="checkbox">
                         <span>Must be logged in to take</span>
                         <input checked={this.state.mustBeSignedIn} onChange={this.selectPrivate} type="checkbox" placeholder="Must be logged in to take" />

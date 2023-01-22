@@ -43,5 +43,50 @@ router.get('/all-hangman', checkAuth, (req, res) => {
             res.status(200).json(result);
         })
 })
+router.post('/save-results', checkAuth, (req, res) => {
+    let score = new Score({
+        userId: req.body.currentUser,
+        answers: req.body.answers,
+        hangmanId: req.body.hangmanId,
+    });
+    score.save().then(async resp => {
+        await Hangman.updateOne({ _id: req.body.hangmanId }, {
+            $push: {
+                scores: resp._id
+            }
+        });
+        res.status(200).json({scoreId: resp._id});
+    })
+});
+
+router.get('/results/:id', checkAuth, (req, res) => {
+    if (!req.params.id) {
+        res.status(500).send("No id provided in params");
+    } else {
+        Score.findOne({_id: req.params.id}).then(data => {
+            if (!data) {
+                res.status(500).send("Error finding score");
+            } else {
+                Hangman.findOne({_id: data.hangmanId}).then(hangman => {
+                    if (!hangman) {
+                        res.status(500).send("Error getting quiz");
+                    } else {
+                        res.status(200).json({score: data, hangman: hangman});
+                    }
+                })
+            }
+        }).catch((err) => {
+            console.log(err);
+            res.status(500).send("Error finding score");
+        })
+    }
+})
+router.put('/update-results/:id', (req,res)=>{
+    Score.findByIdAndUpdate({_id: req.params.id},{$set :{accountResult: req.body.accountResult}}).then(user =>{
+        res.status(200).json(user)
+    }).catch(er=>{
+        res.json({message: er.message})
+    })
+})
 
 module.exports = router;

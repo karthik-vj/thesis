@@ -25,10 +25,10 @@ export default class Adminauth extends React.Component {
     });
   }
   
-  updateaccount = (userId) => {
+  updateaccount = () => {
 
-    console.log()
-    axios.post('api/users/update-user/'+userId, { userId, accountType: this.state.inputVal }).then(res => {
+    let userId = localStorage.getItem('_ID')
+    axios.post('api/users/update-user/'+userId, {accountType: this.state.inputVal }).then(res => {
       console.log(res.data)
       if (res.data) {
         console.log(res)
@@ -75,7 +75,7 @@ export default class Adminauth extends React.Component {
               </h2></div>
               <input value={this.state.inputVal} onChange={e => this.setState({ inputVal: e.target.value })} type="text" placeholder="Add Account Type" /><br></br>
               <br></br><div className="btn" onClick={() => this.setState({ addQuestion: false })}>Close</div><br></br>
-              <button className="btn" onClick={this.update}>Send</button>
+              <button className="btn" onClick={this.updateaccount}>Send</button>
             </div>
           </div>
         </Dialog>

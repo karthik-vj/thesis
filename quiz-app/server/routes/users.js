@@ -95,17 +95,9 @@ router.post('/update-user/:id', (req,res)=>{
     Users.findByIdAndUpdate({_id: req.params.id},{$set: {accountType: req.body.accountType}}).then(user =>{
         res.status(200).json(user)
     }).catch(er=>{
-        res.message(er)
+        res.json({message: er.message})
     })
 })  
-
-router.put('/update/:id', async (req,res)=>{
-    let result = await Users.updateOne({userId: req.params.id},
-        {$set: {
-            accountType: req.body.accountType
-        }})
-    res.json(result)
-})
 
 router.post('/upload-image', checkAuth, async(req, res) => {
     try {

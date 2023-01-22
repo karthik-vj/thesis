@@ -13,8 +13,8 @@ export default class CreateQuiz extends React.Component {
        this.state = {
            categories: ['Math', 'Science', 'Technology', 'Sports', 'History', 'Misc'],
            categoryVal: 'Math',
-           skills: ['SK1','SK2','SK3'],
-           skillsVal: 'SK1',
+           skills: '',
+           skillsVal: '',
            mustBeSignedIn: false,
            questions: [],
            name: '',
@@ -24,7 +24,9 @@ export default class CreateQuiz extends React.Component {
            correctAnswer: '',
            showToast: false,
            imgUrl: '',
-           passGrade: ''
+           passGrade: '',
+           concept:'',
+           conceptDescription: ''
        }
    }
    componentDidMount(){
@@ -85,7 +87,9 @@ export default class CreateQuiz extends React.Component {
            category: this.state.categoryVal,
            imgUrl: this.state.imgUrl,
            skills: this.state.skillsVal,
-           passGrade: this.state.passGrade
+           passGrade: this.state.passGrade,
+           concept: this.state.concept,
+           conceptDescription: this.state.conceptDescription
        }
        axios.post('/api/quizzes/create', {quiz, createdBy: localStorage.getItem('_ID')}).then(res => {
         if (res.data.success) {
@@ -94,7 +98,9 @@ export default class CreateQuiz extends React.Component {
                 answers: [],
                 categoryVal: "Math",
                 showToast: true,
-                skillsVal:"SK1"
+                skillsVal:"",
+                concept:'',
+                conceptDescription:''
             });
             setTimeout(() => {
                 this.setState({showToast: false});
@@ -124,12 +130,12 @@ export default class CreateQuiz extends React.Component {
                            {this.state.categories.map((cat, idx) => (
                                <option key={idx} value={cat}>{cat}</option>
                            ))}
-                       </select>
-                       <select value={this.state.skillsVal} onChange={e => this.setState({skillsVal: e.target.value})} className="input select" placeholder="Skills">
-                           {this.state.skills.map((cat, idx) => (
-                               <option key={idx} value={cat}>{cat}</option>
-                           ))}
-                       </select>
+                       </select><br></br>
+                       <input className="input" onChange={e => this.setState({skillsVal: e.target.value})} value={this.state.skillsVal} placeholder="Skill (here the concept evaluated in the play)" /><br></br>
+                       <input className="input" onChange={e => this.setState({concept: e.target.value})} value={this.state.concept} placeholder="concept" />
+                       <br></br>
+                       <input className="input" onChange={e => this.setState({conceptDescription: e.target.value})} value={this.state.conceptDescription} placeholder="Concept Description" />
+                       <br></br>
                        <div className="checkbox">
                            <span>Must be logged in to take</span>
                            <input checked={this.state.mustBeSignedIn} onChange={this.selectPrivate} type="checkbox" placeholder="Must be logged in to take" />

@@ -3,6 +3,7 @@ const Quizzes = require('../models/Quiz');
 const checkAuth = require('../middleware/check-auth');
 const Users = require('../models/users');
 const Score = require('../models/Scores');
+const student = require('../models/studentModel')
 
 const router = express.Router();
 
@@ -133,6 +134,14 @@ router.get('/results/:id', checkAuth, (req, res) => {
             res.status(500).send("Error finding score");
         })
     }
+})
+
+router.put('/update-results/:id', (req,res)=>{
+    Score.findByIdAndUpdate({_id: req.params.id},{$set :{accountResult: req.body.accountResult}}).then(user =>{
+        res.status(200).json(user)
+    }).catch(er=>{
+        res.json({message: er.message})
+    })
 })
 
 
